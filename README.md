@@ -1,17 +1,6 @@
 # AM0N-Eye
 AM0N-Eye is a compilation of a group of the most important scripts that were written specifically for Cobaltsetrike and the rest of the files such as de for modification in colors and images. All property rights reserved to the original developers. Just open the Cobaltsetrike.jar file and replace it with de and default.cna and resources The names of the projects that have been added. ScareCrow,CrossC2,CSSG-xor,InvokeCredentialPhisher,Registry-Recon,StayKit
-, and here I will know some TTPs of AM0N-Eye, but not all.
 
-1. Linux, MacOS and windows c2 server
-2. Fake Alert techniques
-3. AV/EDR evasion techniques
-4. shellcode Generator & obfuscatior
-5. Persistence techniques
-6. New BOF
-7. AV/EDR Recon
-8. PayloadGenerator Undetected by antivirus programs
-9. custom malwares
-10. New c2 profiles
 
 ![Screenshot from 2023-03-10 11-53-32](https://user-images.githubusercontent.com/121706460/226493992-1b6194b7-13a3-4ac5-bb3c-d473bbf0dd31.png)
 
@@ -68,24 +57,6 @@ To do this, (AV/EDR evasion) changes the permissions of the .text region of memo
 Once these the hooks are removed, (AV/EDR evasion) then utilizes custom System Calls to load and run shellcode in memory. (AV/EDR evasion) does this even after the EDR hooks are removed to help avoid detection by non-userland, hook-based telemetry gathering tools such as Event Tracing for Windows (ETW) or other event logging mechanisms. These custom system calls are also used to perform the VirtualProtect call to remove the hooks placed by EDRs, described above, to avoid detection by any EDR’s anti-tamper controls. This is done by calling a custom version of the VirtualProtect syscall, NtProtectVirtualMemory. (AV/EDR evasion) utilizes Golang to generate these loaders and then assembly for these custom syscall functions.
 
 (AV/EDR evasion) loads the shellcode into memory by first decrypting the shellcode, which is encrypted by default using AES encryption with a decryption and initialization vector key. Once decrypted and loaded, the shellcode is then executed. Depending on the loader options specified (AV/EDR evasion) will set up different export functions for the DLL. The loaded DLL also does not contain the standard DLLmain function which all DLLs typically need to operate. The DLL will still execute without any issue because the process we load into will look for those export functions and not worry about DLLMain being there.
-
- ___________________________________________________________________
-|                Various Out-Of-Box Evasion Capabilities            |
-|-------------------------------------------------------------------|
-|Evasion Capabilities 	x64 Support 	x86 |Support |x86 on Wow64  |
-|Indirect System Calls 	Yes 	Yes 	Yes |   yes  |     yes      |
-|Hide Shellcode Sections in Memory 	    Yes |	Yes  |	   Yes      |
-|Multiple Sleeping Masking Techniques 	Yes |	yes  |	   yes      |
-|Unhook EDR Userland Hooks and Dlls 	Yes |	yes  |	   yes      |
-|LoadLibrary Proxy for ETW Evasion      Yes |	yes  |	   yes      |
-|Thread Stack Encryption 	    Yes 	Yes |	Yes  |     yes      |
-|Badger Heap Encryption      	Yes 	Yes |	Yes  |     yes      |
-|Masquerade Thread Stack Frame 	Yes 	Yes |	Yes  |     yes      | 
-|Hardware Breakpoint for AMSI/ETW Evasion   |	Yes  |	   Yes 	    |
-|Reuse Virtual Memory For ETW Evasion 	Yes |	Yes  |	   Yes      |
-|Reuse Existing Libraries from PEB 	    Yes |__ Yes  |	   Yes      |
-|Secure Free Badger Heap for Volatility Evasion| Yes |	   Yes      |
-|______________________________________________|_____|______________|
 
 (AV/EDR evasion) contains the ability to do process injection attacks. To avoid any hooking or detection in either the loader process or the injected process itself, (AV/EDR evasion) first unhooks the loader process as it would normally, to ensure there are no hooks in the process. Once completed, the loader will then spawn the process specified in the creation command. Once spawned, the loader will then create a handle to the process to retrieve a list of loaded DLLs. Once it finds DLLs, it will enumerate the base address of each DLL in the remote process. Using the function WriteProcessMemory the loader will then write the bytes of the system DLLs stored on disk (since they are “clean” of EDR hooks) without the need to change the memory permissions first. (AV/EDR evasion) uses WriteProcessMemory because this function contains a feature primarily used in debugging where even if a section of memory is read-only, if everything is correct in the call to Write­Process­Memory, it will temporarily change the permission to read-write, update the memory section and then restore the original permissions. Once this is done, the loader can inject shellcode into the spawned process with no issue, as there are no EDR hooks in either process.
 	
@@ -284,50 +255,3 @@ job to execute as your current user context. This job will be executed every tim
 # BypassUAC-eventvwr
  
 silentcleanup UAC bypass that bypasses "always notify" aka the highest UAC setting, even on Windows
-
-
-#info_Advanced
-
-A common collection of OS commands, and Red Team Tips for when you have no Google or RTFM on hand.
-
-
-#BOF & (New command)
-
-    AV_Query                  Queries the Registry for AV Installed
-    FindModule                Find loaded modules.
-    FindProcHandle            Find specific process handles.
-    amsi-inject               Bypass AMSI in a remote process with code injection.
-    blockdlls                 Block non-Microsoft DLLs in child processes
-    bypassuac-eventvwr        Bypass UAC using Eventvwr Fileless UAC bypass via. Powershell SMB Beacon
-    cThreadHijack             cThreadHijack: Remote process injection via thread hijacking
-    dllinject                 Inject a Reflective DLL into a process
-    dllload                   Load DLL into a process with LoadLibrary()
-    edr_query                 Queries the remote or local system for all major EDR products installed
-    etw                       Start or stop ETW logging.
-    execute-assembly          Execute a local .NET program in-memory on target
-    info_RTFM                 A large repository of commands and red team tips
-    kerberos_ccache_use       Apply kerberos ticket from cache to this session
-    kerberos_ticket_purge     Purge kerberos tickets from this session
-    kerberos_ticket_use       Apply kerberos ticket to this session
-    process-hollowing         EarlyBird process hollowing technique - Spawns a process in a suspended state, injects shellcode, hijack main
-    thread with APC, and execute shellcode.
-    regenum                   System, AV, and EDR profiling via registry queries
-    shinject                  Inject shellcode into a process
-    show_beacon_downloads     Show all Downloads associated with your current Beacon.
-    show_sync_location        Shows sync location for downloads.
-    static_syscalls_apc_shspawnSpawn process and use syscalls to execute custom shellcode launch with Nt functions (NtMapViewOfSection -> NtQueueUserApc).
-    static_syscalls_apc_spawn Spawn process and use syscalls to execute beacon shellcode launch with Nt functions (NtMapViewOfSection -> NtQueueUserApc).
-    static_syscalls_dump      Use static syscalls to dump a given PID and save to disk
-    static_syscalls_inject    Use static syscalls to execute CRT beacon shellcode launch with Nt functions.
-    static_syscalls_shinject  Use static syscalls to execute custom shellcode launch with Nt functions.
-    sync_all_beacon_downloads Sync all Downloads.
-    sync_beacon_downloads     Sync all Downloads from current Beacon.
-    syscalls_inject           Use syscalls from on-disk dll to execute CRT beacon shellcode launch with Nt functions.
-    syscalls_shinject         Use syscalls from on-disk dll to execute custom shellcode launch with Nt functions.
-    unhook                    remove hooks from DLLs in this process
-    zerologon                 Reset DC machine account password with CVE-2020-1472
-    
-    
-    __________________________________________________________________________________________________________________________________
-    
-    
