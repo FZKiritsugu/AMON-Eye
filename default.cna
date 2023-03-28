@@ -18,7 +18,6 @@ popup AM0N-Eye {
 
 	}
 		        	separator();	
-     item("About AM0N Actor",  { url_open("https://www.linkedin.com/in/abdulrehman-ali-4472a3243"); });
      item("About AM0N", { openAboutDialog(); });
     	
 }
