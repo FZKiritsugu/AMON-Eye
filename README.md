@@ -18,7 +18,6 @@ Creates /opt/amon-eye/Staged_Payloads, /opt/amon-eye/Stageless_Payloads
 
 A security framework for enterprises and Red Team personnel, supports AM0N-Eye penetration testing of other platforms (Linux / MacOS / ...), supports custom modules, and includes some commonly used penetration modules.
 
-Lateral movement
 
 ![Screenshot from 2023-03-09 13-47-25](https://user-images.githubusercontent.com/121706460/226558264-db460f06-92f1-445e-b428-80a13a69f487.png)
 
