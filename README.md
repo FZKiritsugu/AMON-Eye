@@ -1,5 +1,5 @@
 # AM0N-Eye
-AM0N-Eye is a compilation of a group of the most important scripts that were written specifically for Cobaltsetrike and the rest of the files such as de for modification in colors and images. All property rights reserved to the original developers. Just open the Cobaltsetrike.jar file and replace it with de and default.cna and resources The names of the projects that have been added. ScareCrow,CrossC2,CSSG-xor,InvokeCredentialPhisher,Registry-Recon,StayKit
+AM0N-Eye is a compilation of a group of the most important scripts that were written specifically for Cobaltsetrike and the rest of the files such as de for modification in colors and images. All property rights reserved to the original developers. Just open the Cobaltsetrike.jar file and replace it with de and default.cna and resources The names of the projects that have been added.r3dqu1nn scripts ScareCrow,CrossC2,CSSG-xor,InvokeCredentialPhisher,Registry-Recon,StayKit
 
 
 ![Screenshot from 2023-03-10 11-53-32](https://user-images.githubusercontent.com/121706460/226493992-1b6194b7-13a3-4ac5-bb3c-d473bbf0dd31.png)
